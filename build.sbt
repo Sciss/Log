@@ -5,7 +5,7 @@ lazy val projectVersion = "0.1.1"
 lazy val mimaVersion    = "0.1.0"
 
 lazy val commonJvmSettings = Seq(
-  crossScalaVersions := Seq("3.0.0-RC1", "2.13.4", "2.12.13"),
+  crossScalaVersions := Seq("3.0.0", "2.13.4", "2.12.13"),
 )
 
 // sonatype plugin requires that these are in global
@@ -29,8 +29,8 @@ lazy val root = crossProject(JSPlatform, JVMPlatform).in(file("."))
     scalacOptions in (Compile, compile) ++= {
       val jdkGt8  = scala.util.Properties.isJavaAtLeast("9")
       val sv      = scalaVersion.value
-      val dot     = isDotty.value  // https://github.com/lampepfl/dotty/issues/8634
-      val sq0     = (if (!dot && jdkGt8) List("-release", "8") else Nil)
+      // val dot     = isDotty.value  // https://github.com/lampepfl/dotty/issues/8634
+      val sq0     = (if (/* !dot && */ jdkGt8) List("-release", "8") else Nil)
       if (sv.startsWith("2.12.")) sq0 else "-Wvalue-discard" :: sq0
     }, // JDK >8 breaks API; skip scala-doc
   )
